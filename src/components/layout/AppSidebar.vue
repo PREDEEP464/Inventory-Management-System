@@ -38,37 +38,52 @@
     <!-- Navigation -->
     <nav class="flex-1 space-y-2 p-3">
 
-      <!-- Dashboard -->
-      <RouterLink
-        to="/"
-        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
-        :class="isCollapsed ? 'justify-center' : 'gap-3'"
-      >
-        <LayoutDashboard :size="20" />
+    <!-- Dashboard -->
+    <RouterLink
+      to="/"
+      class="flex items-center rounded-lg px-3 py-3 text-sm font-medium transition"
+      :class="[
+        isCollapsed ? 'justify-center' : 'gap-3',
+        route.path === '/'
+          ? 'bg-blue-600 text-white'
+          : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+      ]"
+    >
+      <LayoutDashboard :size="20" />
 
-        <span v-if="!isCollapsed">
-          Dashboard
-        </span>
-      </RouterLink>
+      <span v-if="!isCollapsed">
+        Dashboard
+      </span>
+    </RouterLink>
 
-      <!-- Inventory -->
-      <RouterLink
-        to="/inventory"
-        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
-        :class="isCollapsed ? 'justify-center' : 'gap-3'"
-      >
-        <Package :size="20" />
+    <!-- Inventory -->
+    <RouterLink
+      to="/inventory"
+      class="flex items-center rounded-lg px-3 py-3 text-sm font-medium transition"
+      :class="[
+        isCollapsed ? 'justify-center' : 'gap-3',
+        route.path.startsWith('/inventory')
+          ? 'bg-blue-600 text-white'
+          : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+      ]"
+    >
+      <Package :size="20" />
 
-        <span v-if="!isCollapsed">
-          Inventory
-        </span>
-      </RouterLink>
+      <span v-if="!isCollapsed">
+        Inventory
+      </span>
+    </RouterLink>
 
-            <!-- Products -->
+      <!-- Products -->
       <RouterLink
         to="/products"
-        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
-        :class="isCollapsed ? 'justify-center' : 'gap-3'"
+        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium transition"
+        :class="[
+          isCollapsed ? 'justify-center' : 'gap-3',
+          route.path.startsWith('/products')
+            ? 'bg-blue-600 text-white'
+            : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+        ]"
       >
         <Package :size="20" />
 
@@ -80,8 +95,13 @@
       <!-- Categories -->
       <RouterLink
         to="/categories"
-        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
-        :class="isCollapsed ? 'justify-center' : 'gap-3'"
+        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium transition"
+        :class="[
+          isCollapsed ? 'justify-center' : 'gap-3',
+          route.path.startsWith('/categories')
+            ? 'bg-blue-600 text-white'
+            : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+        ]"
       >
         <Tags :size="20" />
 
@@ -93,8 +113,13 @@
       <!-- Stock -->
       <RouterLink
         to="/stock"
-        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
-        :class="isCollapsed ? 'justify-center' : 'gap-3'"
+        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium transition"
+        :class="[
+          isCollapsed ? 'justify-center' : 'gap-3',
+          route.path.startsWith('/stock')
+            ? 'bg-blue-600 text-white'
+            : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+        ]"
       >
         <Warehouse :size="20" />
 
@@ -106,8 +131,13 @@
       <!-- Orders -->
       <RouterLink
         to="/orders"
-        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
-        :class="isCollapsed ? 'justify-center' : 'gap-3'"
+        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium transition"
+        :class="[
+          isCollapsed ? 'justify-center' : 'gap-3',
+          route.path.startsWith('/orders')
+            ? 'bg-blue-600 text-white'
+            : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+        ]"
       >
         <ShoppingCart :size="20" />
 
@@ -122,6 +152,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 import {
   ChevronLeft,
@@ -134,6 +165,8 @@ import {
 } from 'lucide-vue-next'
 
 const isCollapsed = ref(false)
+
+const route = useRoute()
 
 const toggleSidebar = () => {
   isCollapsed.value = !isCollapsed.value
