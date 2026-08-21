@@ -6,6 +6,8 @@ import ProductsView from '@/views/inventory/products/ProductsView.vue'
 import ProductDetailsView from '@/views/inventory/products/ProductDetailsView.vue'
 import CategoriesView from '@/views/inventory/categories/CategoriesView.vue'
 import StockManagementView from '@/views/inventory/StockManagementView.vue'
+import OrdersView from '@/views/inventory/orders/OrdersView.vue'
+import OrderDetailsView from '@/views/inventory/orders/OrderDetailsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,6 +73,14 @@ const router = createRouter({
       name: 'stock',
       component: StockManagementView,
     },
+    {
+      path: '/orders',
+      component: OrdersView,
+    },
+    {
+      path: '/orders/:orderId',
+      component: OrderDetailsView,
+    }
   ],
 })
 
