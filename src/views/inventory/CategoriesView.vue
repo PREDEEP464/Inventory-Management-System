@@ -117,20 +117,24 @@
             <td class="px-6 py-4 text-right">
               <div class="flex justify-end gap-2">
 
+                <!-- View Products -->
+                <button
+                  type="button"
+                  class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-blue-600"
+                  title="View products"
+                  @click="viewProducts(category.categoryId)"
+                >
+                  <Eye :size="17" />
+                </button>
+
+                <!-- Edit Category -->
                 <button
                   type="button"
                   class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-blue-600"
                   title="Edit category"
+                  @click="editCategory(category.categoryId)"
                 >
                   <Pencil :size="17" />
-                </button>
-
-                <button
-                  type="button"
-                  class="rounded-lg p-2 text-slate-500 transition hover:bg-red-50 hover:text-red-600"
-                  title="Delete category"
-                >
-                  <Trash2 :size="17" />
                 </button>
 
               </div>
@@ -145,10 +149,12 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 import {
+  Eye,
   Pencil,
   Plus,
-  Trash2,
 } from 'lucide-vue-next'
 
 import {
@@ -156,6 +162,8 @@ import {
 } from '@/services/categoryService'
 
 import type { Category } from '@/types/category'
+
+const router = useRouter()
 
 const categories = ref<Category[]>([])
 
@@ -176,6 +184,14 @@ const loadCategories = async () => {
   } finally {
     isLoading.value = false
   }
+}
+
+const viewProducts = (categoryId: number) => {
+  router.push(`/categories/${categoryId}/products`)
+}
+
+const editCategory = (categoryId: number) => {
+  router.push(`/categories/${categoryId}/edit`)
 }
 
 onMounted(() => {

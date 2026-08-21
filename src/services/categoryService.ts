@@ -20,3 +20,18 @@ export const getCategoryById = async (
 
   return response.data.data
 }
+
+export const updateCategory = async (
+  categoryId: number,
+  category: {
+    categoryName: string
+    description: string | null
+  },
+): Promise<Category> => {
+  const response = await api.put<ApiResponse<Category>>(
+    `/api/categories/${categoryId}`,
+    category,
+  )
+
+  return response.data.data
+}

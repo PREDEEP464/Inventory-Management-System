@@ -95,3 +95,13 @@ export const updateProducts = async (
 
   return response.data.data
 }
+
+export const getProductsByCategory = async (
+  categoryId: number,
+): Promise<Product[]> => {
+  const response = await api.get<ApiResponse<Product[]>>(
+    `/api/products/category/${categoryId}`,
+  )
+
+  return response.data.data
+}
