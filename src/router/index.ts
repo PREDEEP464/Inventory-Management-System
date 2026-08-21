@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '@/views/HomeView.vue'
 import InventoryDashboardView from '@/views/inventory/InventoryDashboardView.vue'
-import ProductsView from '@/views/inventory/ProductsView.vue'
-import ProductDetailsView from '@/views/inventory/ProductDetailsView.vue'
-import CategoriesView from '@/views/inventory/CategoriesView.vue'
+import ProductsView from '@/views/inventory/products/ProductsView.vue'
+import ProductDetailsView from '@/views/inventory/products/ProductDetailsView.vue'
+import CategoriesView from '@/views/inventory/categories/CategoriesView.vue'
 import StockManagementView from '@/views/inventory/StockManagementView.vue'
 
 const router = createRouter({
@@ -30,31 +30,31 @@ const router = createRouter({
       path: '/products/create',
       name: 'create-product',
       component: () =>
-        import('@/views/inventory/CreateProductView.vue'),
+        import('@/views/inventory/products/CreateProductView.vue'),
     },
     {
       path: '/products/:productId/edit',
       name: 'edit-product',
       component: () =>
-        import('@/views/inventory/EditProductView.vue'),
+        import('@/views/inventory/products/EditProductView.vue'),
     },
     {
       path: '/categories/:categoryId/products',
       name: 'category-products',
       component: () =>
-        import('@/views/inventory/CategoryProductsView.vue'),
+        import('@/views/inventory/products/CategoryProductsView.vue'),
     },
     {
       path: '/categories/:categoryId/edit',
       name: 'edit-category',
       component: () =>
-        import('@/views/inventory/EditCategoryView.vue'),
+        import('@/views/inventory/categories/EditCategoryView.vue'),
     },
     {
       path: '/categories/add',
       name: 'add-category',
       component: () =>
-        import('@/views/inventory/AddCategoryView.vue'),
+        import('@/views/inventory/categories/AddCategoryView.vue'),
     },
     {
       path: '/products/:productId',
