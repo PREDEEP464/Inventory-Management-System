@@ -144,6 +144,11 @@
 
           <thead class="bg-slate-50">
             <tr>
+              <th
+                  class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+                >
+                  ID
+                </th>
               <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Product
               </th>
@@ -203,6 +208,9 @@
               :key="product.productId"
               class="transition hover:bg-slate-50"
             >
+              <td class="px-6 py-4 text-sm font-medium text-slate-700">
+                #{{ product.productId }}
+              </td>
               <td class="px-6 py-4">
                 <div>
                   <p class="font-medium text-slate-900">
