@@ -52,7 +52,7 @@
       <LayoutDashboard :size="20" />
 
       <span v-if="!isCollapsed">
-        Dashboard
+        Home
       </span>
     </RouterLink>
 
