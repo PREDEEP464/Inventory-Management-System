@@ -32,7 +32,7 @@
 import { useRouter } from 'vue-router'
 import { ArrowLeft } from 'lucide-vue-next'
 
-import ProductForm from '@/components/products/ProductForm.vue'
+import ProductForm from '@/views/inventory/products/ProductForm.vue'
 
 import type { Product } from '@/types/product'
 

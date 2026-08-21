@@ -55,17 +55,35 @@
 
         <!-- Category -->
         <div>
-          <label class="block text-sm font-medium text-slate-700">
-            Category ID
+          <label
+            for="categoryId"
+            class="block text-sm font-medium text-slate-700"
+          >
+            Category
           </label>
 
-          <input
-            v-model.number="form.categoryId"
-            type="number"
-            min="1"
-            placeholder="e.g. 1"
-            class="mt-2 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
+          <select
+            id="categoryId"
+            v-model="form.categoryId"
+            :disabled="isLoadingCategories"
+            class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-50"
+          >
+            <option :value="null" disabled>
+              {{
+                isLoadingCategories
+                  ? 'Loading categories...'
+                  : 'Select a category'
+              }}
+            </option>
+
+            <option
+              v-for="category in categories"
+              :key="category.categoryId"
+              :value="category.categoryId"
+            >
+              {{ category.categoryName }}
+            </option>
+          </select>
 
           <p
             v-if="errors.categoryId"
@@ -253,12 +271,18 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 
 import {
   createProduct,
   updateProducts,
 } from '@/services/productService'
+
+import {
+  getAllCategories,
+} from '@/services/categoryService'
+
+import type { Category } from '@/types/category'
 
 import type { Product } from '@/types/product'
 
@@ -272,6 +296,21 @@ const props = withDefaults(
     initialProduct: null,
   },
 )
+
+const categories = ref<Category[]>([])
+const isLoadingCategories = ref(false)
+
+const loadCategories = async () => {
+  try {
+    isLoadingCategories.value = true
+
+    categories.value = await getAllCategories()
+  } catch (error) {
+    console.error('Failed to load categories:', error)
+  } finally {
+    isLoadingCategories.value = false
+  }
+}
 
 const emit = defineEmits<{
   cancel: []
@@ -415,4 +454,9 @@ const handleSubmit = async () => {
     isSubmitting.value = false
   }
 }
+
+onMounted(() => {
+  loadCategories()
+})
+
 </script>

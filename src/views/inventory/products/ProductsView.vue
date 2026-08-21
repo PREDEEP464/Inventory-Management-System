@@ -52,19 +52,32 @@
 
         <!-- Category -->
         <div>
-          <label class="mb-2 block text-sm font-medium text-slate-700">
-            Category ID
+          <label
+            for="categoryFilter"
+            class="block text-sm font-medium text-slate-700"
+          >
+            Category
           </label>
 
-          <input
-            v-model.number="filters.categoryId"
-            type="number"
-            min="1"
-            placeholder="Category ID"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
+          <select
+            id="categoryFilter"
+            v-model="filters.categoryId"
+            :disabled="isLoadingCategories"
+            class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-50"
+          >
+            <option :value="undefined">
+              All Categories
+            </option>
 
+            <option
+              v-for="category in categories"
+              :key="category.categoryId"
+              :value="category.categoryId"
+            >
+              {{ category.categoryName }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <!-- Row 2 - Price Range -->
@@ -335,9 +348,30 @@ import {
 
 import type { Product } from '@/types/product'
 
+import {
+  getAllCategories,
+} from '@/services/categoryService'
+
+import type { Category } from '@/types/category'
+
 const router = useRouter()
 
 const products = ref<Product[]>([])
+
+const categories = ref<Category[]>([])
+const isLoadingCategories = ref(false)
+
+const loadCategories = async () => {
+  try {
+    isLoadingCategories.value = true
+
+    categories.value = await getAllCategories()
+  } catch (error) {
+    console.error('Failed to load categories:', error)
+  } finally {
+    isLoadingCategories.value = false
+  }
+}
 
 
 const goToCreateProduct = () => {
@@ -418,5 +452,6 @@ const viewProduct = (productId: number) => {
 
 onMounted(() => {
   loadProducts()
+  loadCategories()
 })
 </script>
