@@ -15,6 +15,7 @@
 
       <button
         type="button"
+        @click="goToCreateProduct"
         class="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
       >
         + Add Product
@@ -24,10 +25,11 @@
     <!-- Filters -->
     <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
 
-      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <!-- Row 1 -->
+      <div class="grid gap-4 md:grid-cols-2">
 
         <!-- Search -->
-        <div class="lg:col-span-2">
+        <div>
           <label class="mb-2 block text-sm font-medium text-slate-700">
             Search Product
           </label>
@@ -59,9 +61,14 @@
             type="number"
             min="1"
             placeholder="Category ID"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           />
         </div>
+
+      </div>
+
+      <!-- Row 2 - Price Range -->
+      <div class="mt-4 grid gap-4 md:grid-cols-2">
 
         <!-- Min Price -->
         <div>
@@ -73,8 +80,8 @@
             v-model.number="filters.minPrice"
             type="number"
             min="0"
-            placeholder="Minimum"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            placeholder="Minimum price"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           />
         </div>
 
@@ -88,32 +95,34 @@
             v-model.number="filters.maxPrice"
             type="number"
             min="0"
-            placeholder="Maximum"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            placeholder="Maximum price"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           />
         </div>
 
       </div>
 
-      <div class="mt-4 flex gap-3">
+      <!-- Actions -->
+      <div class="mt-5 flex justify-end gap-3">
 
         <button
           type="button"
-          class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-          @click="applyFilters"
-        >
-          Apply Filters
-        </button>
-
-        <button
-          type="button"
-          class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          class="rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
           @click="clearFilters"
         >
           Clear
         </button>
 
+        <button
+          type="button"
+          class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+          @click="applyFilters"
+        >
+          Apply Filters
+        </button>
+
       </div>
+
     </div>
 
     <!-- Error -->
@@ -321,6 +330,11 @@ import type { Product } from '@/types/product'
 const router = useRouter()
 
 const products = ref<Product[]>([])
+
+
+const goToCreateProduct = () => {
+  router.push('/products/create')
+}
 
 const isLoading = ref(false)
 const errorMessage = ref('')

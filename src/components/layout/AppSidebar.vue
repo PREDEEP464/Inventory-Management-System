@@ -64,6 +64,19 @@
         </span>
       </RouterLink>
 
+            <!-- Products -->
+      <RouterLink
+        to="/products"
+        class="flex items-center rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
+        :class="isCollapsed ? 'justify-center' : 'gap-3'"
+      >
+        <Package :size="20" />
+
+        <span v-if="!isCollapsed">
+          Products
+        </span>
+      </RouterLink>
+
       <!-- Categories -->
       <RouterLink
         to="/categories"
