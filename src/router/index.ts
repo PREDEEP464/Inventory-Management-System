@@ -5,9 +5,9 @@ import InventoryDashboardView from '@/views/inventory/InventoryDashboardView.vue
 import ProductsView from '@/views/inventory/products/ProductsView.vue'
 import ProductDetailsView from '@/views/inventory/products/ProductDetailsView.vue'
 import CategoriesView from '@/views/inventory/categories/CategoriesView.vue'
-import StockManagementView from '@/views/inventory/StockManagementView.vue'
 import OrdersView from '@/views/inventory/orders/OrdersView.vue'
 import OrderDetailsView from '@/views/inventory/orders/OrderDetailsView.vue'
+import StockManagementView from '@/views/inventory/stock/StockManagementView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
