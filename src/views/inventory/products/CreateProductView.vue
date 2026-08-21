@@ -1,29 +1,39 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-8">
 
+    <!-- Page Header -->
     <div>
       <button
         type="button"
-        class="mb-3 flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
+        class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
         @click="goBack"
       >
         <ArrowLeft :size="17" />
         Back to Products
       </button>
 
-      <h2 class="text-2xl font-bold text-slate-900">
+      <p class="text-sm font-semibold text-blue-600">
+        Inventory Management
+      </p>
+
+      <h2 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">
         Add Product
       </h2>
 
-      <p class="mt-1 text-sm text-slate-500">
-        Create a new product in the inventory.
+      <p class="mt-2 text-sm text-slate-500">
+        Create a new product and add it to your inventory.
       </p>
     </div>
 
-    <ProductForm
-      @cancel="goBack"
-      @success="handleSuccess"
-    />
+    <!-- Product Form -->
+    <div class="mx-auto w-full max-w-3xl">
+
+      <ProductForm
+        @cancel="goBack"
+        @success="handleSuccess"
+      />
+
+    </div>
 
   </div>
 </template>

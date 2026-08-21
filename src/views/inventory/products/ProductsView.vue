@@ -216,11 +216,11 @@
 
             <!-- Products -->
             <tr
-              v-for="product in products"
-              v-else
-              :key="product.productId"
-              class="transition hover:bg-slate-50"
-            >
+                v-for="product in products"
+                v-else
+                :key="product.productId"
+                class="group transition hover:bg-slate-50/80"
+              >
               <td class="px-6 py-4 text-sm font-medium text-slate-700">
                 #{{ product.productId }}
               </td>
@@ -273,15 +273,24 @@
                 </span>
               </td>
 
-              <td class="px-6 py-4 text-right">
-                <button
-                  type="button"
-                  class="text-sm font-semibold text-blue-600 hover:text-blue-800"
-                  @click="viewProduct(product.productId)"
-                >
-                  View
-                </button>
-              </td>
+              <td class="px-6 py-4">
+                  <div class="flex justify-end">
+
+                    <button
+                      type="button"
+                      class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-slate-500 transition hover:bg-blue-50 hover:text-blue-600"
+                      title="View product"
+                      @click="viewProduct(product.productId)"
+                    >
+                      <Eye :size="17" />
+
+                      <span class="hidden lg:inline">
+                        View
+                      </span>
+                    </button>
+
+                  </div>
+                </td>
             </tr>
 
           </tbody>
@@ -338,7 +347,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { Search } from 'lucide-vue-next'
+import { Eye, Search } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 
 import {

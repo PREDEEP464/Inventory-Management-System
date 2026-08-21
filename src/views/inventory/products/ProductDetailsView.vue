@@ -1,182 +1,263 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-8">
 
-    <!-- Header -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <!-- Page Header -->
+    <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+
       <div>
         <button
           type="button"
-          class="mb-3 flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
+          class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
           @click="goBack"
         >
           <ArrowLeft :size="17" />
           Back to Products
         </button>
 
-        <h2 class="text-2xl font-bold text-slate-900">
+        <p class="text-sm font-semibold text-blue-600">
+          Inventory Management
+        </p>
+
+        <h2 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">
           Product Details
         </h2>
 
-        <p class="mt-1 text-sm text-slate-500">
-          View product and inventory information.
+        <p class="mt-2 text-sm text-slate-500">
+          View product information, pricing, and inventory details.
         </p>
       </div>
 
+      <!-- Edit Button -->
       <button
         v-if="product"
         type="button"
-        class="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+        class="inline-flex w-fit items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md"
         @click="goToEdit"
       >
         <Pencil :size="17" />
         Edit Product
       </button>
+
     </div>
 
     <!-- Loading -->
     <div
       v-if="isLoading"
-      class="rounded-xl border border-slate-200 bg-white p-12 text-center shadow-sm"
+      class="mx-auto w-full max-w-5xl rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm"
     >
-      <p class="text-sm text-slate-500">
+      <div
+        class="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-blue-600"
+      ></div>
+
+      <p class="text-sm font-semibold text-slate-700">
         Loading product details...
+      </p>
+
+      <p class="mt-1 text-xs text-slate-400">
+        Please wait while we load the product information.
       </p>
     </div>
 
     <!-- Error -->
     <div
       v-else-if="errorMessage"
-      class="rounded-xl border border-red-200 bg-red-50 p-5"
+      class="mx-auto w-full max-w-5xl rounded-2xl border border-red-200 bg-red-50 p-5"
     >
-      <p class="font-medium text-red-700">
-        {{ errorMessage }}
-      </p>
-
-      <button
-        type="button"
-        class="mt-3 text-sm font-semibold text-red-700 underline"
-        @click="loadProduct"
+      <div
+        class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        Try Again
-      </button>
+
+        <div>
+          <p class="font-semibold text-red-800">
+            Unable to load product
+          </p>
+
+          <p class="mt-1 text-sm text-red-700">
+            {{ errorMessage }}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="w-fit rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50"
+          @click="loadProduct"
+        >
+          Try Again
+        </button>
+
+      </div>
     </div>
 
-    <!-- Product -->
+    <!-- Product Details -->
     <template v-else-if="product">
 
-      <!-- Main Information -->
-      <div class="grid gap-6 lg:grid-cols-3">
+      <div class="mx-auto w-full max-w-5xl space-y-6">
 
-        <!-- Product Information -->
-        <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2">
+        <!-- Main Product Card -->
+        <div
+          class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+        >
 
-          <div class="flex items-start justify-between gap-4">
+          <!-- Product Header -->
+          <div class="border-b border-slate-100 bg-slate-50/50 p-6 sm:p-8">
 
-            <div>
-              <p class="text-sm font-medium text-slate-500">
-                Product
-              </p>
-
-              <h3 class="mt-1 text-2xl font-bold text-slate-900">
-                {{ product.productName }}
-              </h3>
-
-              <p class="mt-1 text-sm text-slate-500">
-                {{ product.productCode }}
-              </p>
-            </div>
-
-            <span
-              class="rounded-full px-3 py-1 text-xs font-semibold"
-              :class="
-                product.isActive
-                  ? 'bg-emerald-50 text-emerald-700'
-                  : 'bg-slate-100 text-slate-600'
-              "
+            <div
+              class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between"
             >
-              {{ product.isActive ? 'Active' : 'Inactive' }}
-            </span>
+
+              <div class="flex items-start gap-4">
+
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                    Product
+                  </p>
+
+                  <h3 class="mt-1 text-2xl font-bold text-slate-900">
+                    {{ product.productName }}
+                  </h3>
+
+                  <p class="mt-1 text-sm text-slate-500">
+                    {{ product.productCode }}
+                  </p>
+                </div>
+
+              </div>
+
+              <!-- Status -->
+              <span
+                class="inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold"
+                :class="
+                  product.isActive
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-slate-100 text-slate-600'
+                "
+              >
+                <span
+                  class="h-1.5 w-1.5 rounded-full"
+                  :class="
+                    product.isActive
+                      ? 'bg-emerald-500'
+                      : 'bg-slate-400'
+                  "
+                ></span>
+
+                {{ product.isActive ? 'Active' : 'Inactive' }}
+              </span>
+
+            </div>
 
           </div>
 
-          <div class="mt-8 grid gap-6 sm:grid-cols-2">
+          <!-- Product Details -->
+          <div class="p-6 sm:p-8">
 
-            <div>
-              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
-                Product ID
-              </p>
+            <div class="grid gap-6 sm:grid-cols-3">
 
-              <p class="mt-1 font-medium text-slate-800">
-                #{{ product.productId }}
-              </p>
+              <!-- Product ID -->
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  Product ID
+                </p>
+
+                <p class="mt-2 text-sm font-semibold text-slate-800">
+                  #{{ product.productId }}
+                </p>
+              </div>
+
+              <!-- Category -->
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  Category
+                </p>
+
+                <p class="mt-2 text-sm font-semibold text-slate-800">
+                  {{ product.categoryId }}
+                </p>
+              </div>
+
+              <!-- Price -->
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  Product Price
+                </p>
+
+                <p class="mt-1 text-xl font-bold text-slate-900">
+                  ₹{{ formatPrice(product.productPrice) }}
+                </p>
+              </div>
+
             </div>
 
-            <div>
-              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
-                Category
+            <!-- Description -->
+            <div class="mt-8 border-t border-slate-100 pt-6">
+
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Description
               </p>
 
-              <p class="mt-1 font-medium text-slate-800">
-                {{ product.categoryId }}
+              <p class="mt-2 max-w-3xl text-sm leading-7 text-slate-600">
+                {{ product.productDescription || 'No description available.' }}
               </p>
+
             </div>
-
-            <div>
-              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
-                Product Price
-              </p>
-
-              <p class="mt-1 text-xl font-bold text-slate-900">
-                ₹{{ formatPrice(product.productPrice) }}
-              </p>
-            </div>
-
-          </div>
-
-          <div class="mt-8 border-t border-slate-100 pt-6">
-
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Description
-            </p>
-
-            <p class="mt-2 text-sm leading-6 text-slate-600">
-              {{ product.productDescription || 'No description available.' }}
-            </p>
 
           </div>
 
         </div>
 
-        <!-- Inventory Summary -->
-        <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <!-- Inventory Section -->
+        <div
+          class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+        >
 
-          <div class="flex items-center gap-2">
-            <Package :size="19" class="text-blue-600" />
-
-            <h3 class="font-semibold text-slate-900">
-              Inventory
-            </h3>
-          </div>
-
-          <div class="mt-6 space-y-5">
+          <div class="flex items-center justify-between">
 
             <div>
-              <p class="text-sm text-slate-500">
-                Total Quantity
-              </p>
+              <h3 class="text-lg font-semibold text-slate-900">
+                Inventory
+              </h3>
 
-              <p class="mt-1 text-2xl font-bold text-slate-900">
-                {{ product.totalQuantity }}
+              <p class="mt-1 text-sm text-slate-500">
+                Current stock levels for this product.
               </p>
             </div>
 
-            <div class="border-t border-slate-100 pt-5">
-              <p class="text-sm text-slate-500">
+          </div>
+
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+
+            <!-- Total Stock -->
+            <div
+              class="rounded-xl border border-slate-100 bg-slate-50 p-5"
+            >
+              <p class="text-sm font-medium text-slate-500">
+                Total Quantity
+              </p>
+
+              <p class="mt-2 text-3xl font-bold text-slate-900">
+                {{ product.totalQuantity }}
+              </p>
+
+              <p class="mt-1 text-xs text-slate-400">
+                Total units in inventory
+              </p>
+            </div>
+
+            <!-- Available Stock -->
+            <div
+              class="rounded-xl border p-5"
+              :class="
+                product.availableQuantity <= 10
+                  ? 'border-amber-100 bg-amber-50/50'
+                  : 'border-emerald-100 bg-emerald-50/50'
+              "
+            >
+              <p class="text-sm font-medium text-slate-500">
                 Available Quantity
               </p>
 
               <p
-                class="mt-1 text-2xl font-bold"
+                class="mt-2 text-3xl font-bold"
                 :class="
                   product.availableQuantity <= 10
                     ? 'text-amber-600'
@@ -187,10 +268,18 @@
               </p>
 
               <p
-                v-if="product.availableQuantity <= 10"
-                class="mt-1 text-xs font-medium text-amber-600"
+                class="mt-1 text-xs"
+                :class="
+                  product.availableQuantity <= 10
+                    ? 'text-amber-600'
+                    : 'text-emerald-600'
+                "
               >
-                Low stock
+                {{
+                  product.availableQuantity <= 10
+                    ? 'Stock requires attention'
+                    : 'Stock level is healthy'
+                }}
               </p>
             </div>
 
@@ -198,55 +287,47 @@
 
         </div>
 
-      </div>
-
-      <!-- Product Information Card -->
-      <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-
-        <h3 class="font-semibold text-slate-900">
-          Product Information
-        </h3>
-
-        <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Additional Information -->
+        <div
+          class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+        >
 
           <div>
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Product Code
-            </p>
+            <h3 class="text-lg font-semibold text-slate-900">
+              Additional Information
+            </h3>
 
-            <p class="mt-1 text-sm font-medium text-slate-800">
-              {{ product.productCode }}
+            <p class="mt-1 text-sm text-slate-500">
+              Reference information for this product.
             </p>
           </div>
 
-          <div>
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Category ID
-            </p>
+          <div
+            class="mt-6 grid divide-y divide-slate-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0"
+          >
 
-            <p class="mt-1 text-sm font-medium text-slate-800">
-              {{ product.categoryId }}
-            </p>
-          </div>
+            <!-- Product Code -->
+            <div class="pb-5 sm:pb-0 sm:pr-6">
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Product Code
+              </p>
 
-          <div>
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Total Stock
-            </p>
+              <p class="mt-2 text-sm font-semibold text-slate-800">
+                {{ product.productCode }}
+              </p>
+            </div>
 
-            <p class="mt-1 text-sm font-medium text-slate-800">
-              {{ product.totalQuantity }}
-            </p>
-          </div>
+            <!-- Category ID -->
+            <div class="pt-5 sm:pl-6 sm:pt-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Category ID
+              </p>
 
-          <div>
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Available Stock
-            </p>
+              <p class="mt-2 text-sm font-semibold text-slate-800">
+                #{{ product.categoryId }}
+              </p>
+            </div>
 
-            <p class="mt-1 text-sm font-medium text-slate-800">
-              {{ product.availableQuantity }}
-            </p>
           </div>
 
         </div>
