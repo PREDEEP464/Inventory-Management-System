@@ -35,3 +35,17 @@ export const updateCategory = async (
 
   return response.data.data
 }
+
+export const createCategory = async (
+  category: {
+    categoryName: string
+    description: string | null
+  },
+): Promise<Category> => {
+  const response = await api.post<ApiResponse<Category>>(
+    '/api/categories',
+    category,
+  )
+
+  return response.data.data
+}
